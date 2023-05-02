@@ -1,37 +1,43 @@
 version: '3.4'
 services:
 
-  freebills:
+  anystore-api:
     container_name: anystore-api
     image: warleyvods/anystore-api
     networks:
       - sicoob-net
     environment:
-      - DATABASE_CONNECTION_URL=jdbc:postgresql://db:5432/anystore
+      - DATABASE_CONNECTION_URL=jdbc:postgresql://db3:5432/anystore
       - USER=anystore
       - PASSWORD=99433900
       - SCOPE=prod
+      - SECRET=eyJhbGciOiJIUzI1NiJ9eyJPb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiACJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI
       - NEW_RELIC_LICENSE_KEY=1f200948d2b1c9461b422893c9f32a942016NRAL
       - NEW_RELIC_APP_NAME=anystore
       - NEW_RELIC_LOG=stdout
       - NEW_RELIC_LOG_LEVEL=info
     depends_on:
-      - db
+      - db3
     links:
-      - db
+      - db3
     restart: on-failure
-    ports:
-      - "9000:9000"
+    labels:
+      - traefik.port=9000
+      - traefik.http.routers.anystore-api.rule=Host(`anystore-api.wavods.com`)
+      - traefik.enable=true
+      - traefik.http.routers.anystore-api.entrypoints=websecure
+      - traefik.http.routers.anystore-api.tls=true
+      - traefik.http.routers.anystore-api.tls.certresolver=myresolver
 
-  db:
+  db3:
     image: postgres:10-alpine
-    container_name: db
-    hostname: db
+    container_name: db3
+    hostname: db3
     restart: always
     networks:
       - sicoob-net
     ports:
-      - "5433:5432"
+      - "5434:5432"
     environment:
       - POSTGRES_USER=anystore
       - POSTGRES_PASSWORD=99433900
