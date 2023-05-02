@@ -22,6 +22,7 @@ jobs:
         run: ./gradlew compileJava
 
   Tests:
+    needs: Build
     name: Docker and Notification
     runs-on: ubuntu-latest
     steps:
