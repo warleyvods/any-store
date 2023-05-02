@@ -1,0 +1,49 @@
+version: '3.4'
+services:
+
+  freebills:
+    container_name: anystore-api
+    image: warleyvods/anystore-api
+    networks:
+      - sicoob-net
+    environment:
+      - DATABASE_CONNECTION_URL=jdbc:postgresql://db:5432/anystore
+      - USER=anystore
+      - PASSWORD=99433900
+      - SCOPE=prod
+      - NEW_RELIC_LICENSE_KEY=1f200948d2b1c9461b422893c9f32a942016NRAL
+      - NEW_RELIC_APP_NAME=anystore
+      - NEW_RELIC_LOG=stdout
+      - NEW_RELIC_LOG_LEVEL=info
+    depends_on:
+      - db
+    links:
+      - db
+    restart: on-failure
+    ports:
+      - "9000:9000"
+
+  db:
+    image: postgres:10-alpine
+    container_name: db
+    hostname: db
+    restart: always
+    networks:
+      - sicoob-net
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_USER=anystore
+      - POSTGRES_PASSWORD=99433900
+      - POSTGRES_DB=anystore
+    volumes:
+      - './anystore_postgres/pg_db:/var/lib/postgresql'
+      - './anystore_postgres/pg_data:/var/lib/postgresql/data'
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+
+networks:
+  sicoob-net:
+    driver: bridge

@@ -34,6 +34,9 @@ jobs:
           distribution: 'adopt'
           cache: gradle
 
+      - name: Grant execute permission to gradlew
+        run: chmod +x ./gradlew
+
       - name: Build again
         run: ./gradlew assemble
 
