@@ -1,4 +1,4 @@
-name: Free Bills Pipeline
+name: AnyStore Pipeline
 on:
   push:
     branches: [ master ]
