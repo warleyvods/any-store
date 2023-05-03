@@ -19,7 +19,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import org.webjars.NotFoundException;
 
 import static org.springframework.http.HttpStatus.*;
 
@@ -46,7 +45,7 @@ public class UserController {
 
     @ResponseStatus(CREATED)
     @PostMapping("/public/save")
-    public UserResponseDTO savePublicUser(@RequestBody @Valid final SignupUserRequestDTO signupUserRequestDTO) {
+    public UserResponseDTO createPublicUser(@RequestBody @Valid final SignupUserRequestDTO signupUserRequestDTO) {
         final var user = createUser.create(mapper.toDomainUser(signupUserRequestDTO));
         return mapper.fromDomain(user);
     }
