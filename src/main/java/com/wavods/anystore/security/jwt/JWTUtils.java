@@ -107,6 +107,7 @@ public class JWTUtils {
                 .claim("id", user.getId())
                 .setSubject(user.getLogin())
                 .claim("name", user.getName())
+                .claim("admin", user.isAdmin())
                 .claim("email", user.getEmail())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))

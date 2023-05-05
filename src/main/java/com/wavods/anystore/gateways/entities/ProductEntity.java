@@ -9,27 +9,40 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 
+import static jakarta.persistence.GenerationType.*;
+
 @Getter
 @Setter
-@Entity(name = "`product`")
 @Table
+@Entity(name = "`product`")
 public class ProductEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
     @NotNull
     private String name;
 
-    @Size(max = 4000)
     @NotNull
+    @Size(max = 4000)
     @Column(columnDefinition = "TEXT")
     private String description;
 
+    @NotNull
     @Positive
     private BigDecimal price;
 
+    @NotNull
     @Positive
     private Integer quantity;
+
+    private Boolean promo;
+
+    private BigDecimal promoPrice;
+
+    private String urlImage;
+
+    private Boolean active;
+
 }
