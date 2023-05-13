@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Getter
 @Setter
@@ -18,6 +19,7 @@ public class Product {
     private BigDecimal promoPrice;
     private String urlImage;
     private Boolean active;
+    private List<ProductImage> productImages;
 
     public Boolean isPromo() {
         return this.promo;

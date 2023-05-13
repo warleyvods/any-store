@@ -8,12 +8,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import static jakarta.persistence.GenerationType.*;
 
 @Getter
 @Setter
-@Table
 @Entity(name = "`product`")
 public class ProductEntity {
 
@@ -41,8 +41,9 @@ public class ProductEntity {
 
     private BigDecimal promoPrice;
 
-    private String urlImage;
-
     private Boolean active;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<ProductImageEntity> productImages;
 
 }
