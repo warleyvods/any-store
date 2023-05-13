@@ -6,11 +6,11 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.*;
 import com.wavods.anystore.domains.FileUpload;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -18,12 +18,11 @@ import java.io.IOException;
 import static java.time.LocalDateTime.*;
 import static java.util.UUID.randomUUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class FileUploadGateway {
 
-	private static final Logger log = LoggerFactory.getLogger(FileUploadGateway.class);
-	
 	private final AmazonS3 amazonS3;
 
 	@Value("${cloud.aws.bucket.name}")
@@ -70,24 +69,6 @@ public class FileUploadGateway {
 		metadata.setContentLength(file.getSize());
 		return metadata;
 	}
-
-	//TODO refatorar este método
-//	public FileUpload downloadFile(String bucketName, String fileName) {
-//		if (!amazonS3.doesBucketExist(bucketName)) {
-//			log.error("No Bucket Found");
-//			return null;
-//		}
-//		S3Object s3object = amazonS3.getObject(bucketName, fileName);
-//		S3ObjectInputStream inputStream = s3object.getObjectContent();
-//		FileUpload fileUpload = new FileUpload();
-//		try {
-//			fileUpload.setFile(FileCopyUtils.copyToByteArray(inputStream));
-//			fileUpload.setFileName(s3object.getKey());
-//			return fileUpload;
-//		} catch (Exception e) {
-//			return null;
-//		}
-//	}
 
 	public void deleteFile(final String fileName) {
 		if (!amazonS3.doesBucketExist(bucketName)) {

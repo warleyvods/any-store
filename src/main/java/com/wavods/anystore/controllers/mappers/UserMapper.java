@@ -1,7 +1,6 @@
 package com.wavods.anystore.controllers.mappers;
 
 
-
 import com.wavods.anystore.annotations.EncodedMapping;
 import com.wavods.anystore.controllers.dtos.requests.SignupUserRequestDTO;
 import com.wavods.anystore.controllers.dtos.requests.UserPostRequestDTO;
@@ -15,17 +14,17 @@ import org.mapstruct.*;
 public interface UserMapper {
 
     @Mapping(source = "password", target = "password", qualifiedBy = EncodedMapping.class)
-    User toDomain(UserPostRequestDTO userPostRequestDTO);
+    User toDomain(final UserPostRequestDTO userPostRequestDTO);
 
     @Mapping(source = "password", target = "password", qualifiedBy = EncodedMapping.class)
-    User toDomainUser(SignupUserRequestDTO signupUserRequestDTO);
+    User toDomainUser(final SignupUserRequestDTO signupUserRequestDTO);
 
-    UserResponseDTO fromDomain(User user);
+    UserResponseDTO fromDomain(final User user);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    User updateUserFromDTO(UserPutRequestDTO userPutRequestDTO, @MappingTarget User user);
+    User updateUserFromDTO(final UserPutRequestDTO userPutRequestDTO, @MappingTarget final User user);
 
     @Mapping(source = "password", target = "password", qualifiedBy = EncodedMapping.class)
-    User updatePasswordFromDTO(UserPutPasswordRequestDTO userPutPasswordRequestDTO, @MappingTarget User user);
+    User updatePasswordFromDTO(final UserPutPasswordRequestDTO userPutPasswordRequestDTO, @MappingTarget final User user);
 
 }

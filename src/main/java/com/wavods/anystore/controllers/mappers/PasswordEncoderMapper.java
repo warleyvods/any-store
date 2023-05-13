@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 public record PasswordEncoderMapper(PasswordEncoder passwordEncoder) {
 
     @EncodedMapping
-    public String encode(String password) {
+    public String encode(final String password) {
         return passwordEncoder.encode(password);
     }
 }

@@ -1,8 +1,10 @@
 package com.wavods.anystore.controllers.dtos.responses;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class MessageResponse {
 	private String message;
 

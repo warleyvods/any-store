@@ -8,6 +8,6 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ProductImageMapper {
 
-    ProductImageResponseDTO toDto(ProductImage productImage);
+    ProductImageResponseDTO toDto(final ProductImage productImage);
 
 }

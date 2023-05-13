@@ -9,8 +9,8 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ProductMapper {
 
-    Product toDomain(ProductRequestDTO productRequestDTO);
+    Product toDomain(final ProductRequestDTO productRequestDTO);
 
-    ProductResponseDTO toDto(Product product);
+    ProductResponseDTO toDto(final Product product);
 
 }

@@ -6,16 +6,20 @@ import jakarta.validation.constraints.NotBlank;
 
 public record UserPostRequestDTO(
         @Schema(description = "User name application", example = "Pudge Silva", required = true)
-        @NotBlank String name,
+        @NotBlank
+        String name,
 
         @Schema(description = "Login Application", example = "pudge", required = true)
-        @NotBlank String login,
+        @NotBlank
+        String login,
 
         @Schema(description = "Password", example = "fresh", required = true)
-        @NotBlank String password,
+        @NotBlank
+        String password,
 
         @Schema(description = "Email", example = "dota@dota.com", required = true)
-        @NotBlank String email,
+        @NotBlank
+        String email,
 
         @Schema(description = "admin system", example = "false", required = true)
         boolean admin,

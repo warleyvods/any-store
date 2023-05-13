@@ -2,6 +2,7 @@ package com.wavods.anystore.controllers;
 
 import com.wavods.anystore.controllers.dtos.responses.UserResponseDTO;
 import com.wavods.anystore.controllers.mappers.UserMapper;
+import com.wavods.anystore.domains.User;
 import com.wavods.anystore.gateways.UserGateway;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
+import java.util.Optional;
 
 import static org.springframework.http.HttpStatus.OK;
 
@@ -28,6 +30,7 @@ public class MeController {
     @ResponseStatus(OK)
     @GetMapping
     public UserResponseDTO findById(Principal principal) {
-        return userMapper.fromDomain(userGateway.findByLogin(principal.getName()).get());
+        final var user = userGateway.findByLogin(principal.getName());
+        return user.map(userMapper::fromDomain).orElse(null);
     }
 }
