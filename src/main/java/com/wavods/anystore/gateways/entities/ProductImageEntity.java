@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @Entity(name = "product_image")
@@ -16,7 +18,8 @@ public class ProductImageEntity {
     private String fileName;
     private String contentType;
     private Long size;
-    private String urlImage;
+    private String url;
+    private LocalDateTime createdAt;
 
     @JoinColumn
     @ManyToOne

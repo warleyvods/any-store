@@ -1,6 +1,7 @@
 package com.wavods.anystore.controllers.dtos.responses;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public record ProductResponseDTO(
         Long id,
@@ -10,7 +11,7 @@ public record ProductResponseDTO(
         Integer quantity,
         Boolean promo,
         BigDecimal promoPrice,
-        String urlImage,
-        Boolean active
+        Boolean active,
+        List<ProductImageResponseDTO> productImages
 ) {
 }

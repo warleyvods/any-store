@@ -1,6 +1,7 @@
 package com.wavods.anystore.exceptions.handler;
 
 
+import com.wavods.anystore.exceptions.FileNotSupportedException;
 import com.wavods.anystore.exceptions.PermissionDeniedException;
 import com.wavods.anystore.exceptions.UserNotFoundException;
 import jakarta.validation.ConstraintViolation;
@@ -212,6 +213,18 @@ public class RestExceptionHandler {
                 .devMsg(ex.getClass().getName())
                 .status(BAD_REQUEST.value())
                 .title("IllegalArgumentException")
+                .build();
+    }
+
+    @ResponseStatus(NOT_ACCEPTABLE)
+    @ExceptionHandler(FileNotSupportedException.class)
+    public ExceptionFilters fileNotSupported(final FileNotSupportedException ex) {
+        return ExceptionFilters.builder()
+                .timestamp(LocalDateTime.now())
+                .details(ex.getMessage())
+                .devMsg(ex.getClass().getName())
+                .status(NOT_ACCEPTABLE.value())
+                .title("File extension does not have support for this system")
                 .build();
     }
 }

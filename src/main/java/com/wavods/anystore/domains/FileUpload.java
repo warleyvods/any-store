@@ -7,20 +7,19 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class ProductImage {
+public class FileUpload {
 
-    private Long id;
     private String fileName;
     private String contentType;
     private Long size;
     private String url;
     private LocalDateTime createdAt;
 
-    public ProductImage(String fileName, String contentType, Long size, String urlImage, LocalDateTime createdAt) {
+    public FileUpload(String fileName, String contentType, Long size, String url, LocalDateTime createdAt) {
         this.fileName = fileName;
         this.contentType = contentType;
         this.size = size;
-        this.url = urlImage;
+        this.url = url;
         this.createdAt = createdAt;
     }
 }

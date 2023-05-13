@@ -17,7 +17,6 @@ public class Product {
     private Integer quantity;
     private Boolean promo;
     private BigDecimal promoPrice;
-    private String urlImage;
     private Boolean active;
     private List<ProductImage> productImages;
 
