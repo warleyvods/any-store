@@ -5,11 +5,11 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+
+import static java.time.LocalDate.now;
 
 @Getter
 @Setter
@@ -18,7 +18,6 @@ import java.time.LocalDateTime;
         @UniqueConstraint(columnNames = "login"),
         @UniqueConstraint(columnNames = "email")
 })
-@EntityListeners(AuditingEntityListener.class)
 public class UserEntity {
 
     @Id
@@ -50,9 +49,13 @@ public class UserEntity {
     @Column(nullable = false)
     private boolean active = true;
 
-    @CreatedDate
+    @Column(updatable = false)
     private LocalDate createdAt;
 
     private LocalDateTime lastAccess;
 
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = now();
+    }
 }
