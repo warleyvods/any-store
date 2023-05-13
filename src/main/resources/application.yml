@@ -27,11 +27,7 @@ api:
 cloud:
   aws:
     credentials:
-      access-key: AKIARMOR3EE6OFJ4P2PA
-      secret-key: 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
-    region:
-      static: us-east-1
-    stack:
-      auto: 'false'
+      access-key: ${ACCESS_KEY}
+      secret-key: ${SECRET_KEY}
     bucket:
       name: anystorebucket

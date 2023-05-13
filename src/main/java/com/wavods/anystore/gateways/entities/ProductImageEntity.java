@@ -21,7 +21,6 @@ public class ProductImageEntity {
     private String url;
     private LocalDateTime createdAt;
 
-    @JoinColumn
     @ManyToOne
     private ProductEntity product;
 
