@@ -3,6 +3,7 @@ package com.wavods.anystore.exceptions.handler;
 
 import com.wavods.anystore.exceptions.FileNotSupportedException;
 import com.wavods.anystore.exceptions.PermissionDeniedException;
+import com.wavods.anystore.exceptions.ProductNotFoundException;
 import com.wavods.anystore.exceptions.UserNotFoundException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
@@ -41,6 +42,18 @@ public class RestExceptionHandler {
                 .devMsg(ex.getClass().getName())
                 .status(NOT_FOUND.value())
                 .title("User not found!")
+                .build();
+    }
+
+    @ResponseStatus(NOT_FOUND)
+    @ExceptionHandler(ProductNotFoundException.class)
+    public ExceptionFilters productNotFound(final ProductNotFoundException ex) {
+        return ExceptionFilters.builder()
+                .timestamp(LocalDateTime.now())
+                .details(ex.getMessage())
+                .devMsg(ex.getClass().getName())
+                .status(NOT_FOUND.value())
+                .title("product not found!")
                 .build();
     }
 

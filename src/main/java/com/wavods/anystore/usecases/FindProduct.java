@@ -12,4 +12,8 @@ public record FindProduct(ProductGateway productGateway) {
     public Page<Product> execute(final Pageable pageable) {
         return productGateway.getAll(pageable);
     }
+
+    public Product execute(final Long id) {
+        return productGateway.findById(id);
+    }
 }

@@ -69,7 +69,8 @@ public class WebSecurityConfig {
                 .requestMatchers("/*/actuator/**").permitAll()
                 .requestMatchers("/*/h2-console/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                .anyRequest().authenticated();
+                //verificar depois...
+                .anyRequest().permitAll();
 
         // fix H2 database console: Refused to display ' in a frame because it set 'X-Frame-Options' to 'deny'
         http.headers().frameOptions().sameOrigin();

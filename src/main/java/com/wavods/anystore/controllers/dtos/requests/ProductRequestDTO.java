@@ -8,8 +8,7 @@ public record ProductRequestDTO(
         BigDecimal price,
         Integer quantity,
         Boolean promo,
-        BigDecimal promoPrice,
-        String urlImage,
+        BigDecimal promoPrice, //todo
         Boolean active
 ) {
 }
