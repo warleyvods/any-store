@@ -1,6 +1,7 @@
 package com.wavods.anystore.gateways.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
@@ -34,7 +35,7 @@ public class ProductEntity {
     private BigDecimal price;
 
     @NotNull
-    @Positive
+    @Min(value = 0)
     private Integer quantity;
 
     private Boolean promo;
