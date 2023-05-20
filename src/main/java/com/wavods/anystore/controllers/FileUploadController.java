@@ -16,8 +16,8 @@ public class FileUploadController {
     private final FileUploadGateway uploadGateway;
 
     @PostMapping(value = "/file/upload")
-    public void fileUplaod(final MultipartFile file) throws IOException {
-        uploadGateway.fileUpload(file);
+    public void fileUplaod(final MultipartFile image) throws IOException {
+        uploadGateway.fileUpload(image);
     }
 
     @DeleteMapping(value = "/file/delete/{fileName}")

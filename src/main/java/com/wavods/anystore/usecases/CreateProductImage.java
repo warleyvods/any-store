@@ -17,6 +17,11 @@ public record CreateProductImage(ProductImageGateway productImageGateway,
     public ProductImage execute(final MultipartFile image, final Long productId) throws IOException {
         final var product = productGateway.findById(productId);
         imageGateway.imageValidation(image);
-        return productImageGateway.save(image, product);
+        return productImageGateway.saveWithProduct(image, product);
+    }
+
+    public ProductImage execute(final MultipartFile image) throws IOException {
+        imageGateway.imageValidation(image);
+        return productImageGateway.save(image);
     }
 }

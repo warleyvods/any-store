@@ -15,6 +15,7 @@ public class ProductImage {
     private Long size;
     private String url;
     private LocalDateTime createdAt;
+    private Boolean principal;
 
     public ProductImage(String fileName, String contentType, Long size, String urlImage, LocalDateTime createdAt) {
         this.fileName = fileName;

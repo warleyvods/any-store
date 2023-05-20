@@ -1,10 +1,7 @@
 package com.wavods.anystore.gateways.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -34,8 +31,9 @@ public class ProductEntity {
     @Positive
     private BigDecimal price;
 
-    @NotNull
-    @Min(value = 0)
+    @NotNull(message = "Quantity is required")
+    @PositiveOrZero(message = "Quantity must be greater than or equal to zero")
+    @Max(value = 9999, message = "Quantity must be less than or equal to 9999")
     private Integer quantity;
 
     private Boolean promo;

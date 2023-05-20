@@ -53,8 +53,14 @@ public class ProductController {
         deleteProduct.execute(id);
     }
 
-    @PostMapping(value = "/file/upload")
-    public ProductImageResponseDTO fileUplaod(final MultipartFile image, @RequestParam final Long productId) throws IOException {
+    //todo: desabilitado momentaneamente.
+    @PostMapping(value = "/image/upload-product-association")
+    private ProductImageResponseDTO imageWithProductUpload(final MultipartFile image, @RequestParam final Long productId) throws IOException {
         return productImageMapper.toDto(createProductImage.execute(image, productId));
+    }
+
+    @PostMapping(value = "/image/upload")
+    public ProductImageResponseDTO imageUpload(final MultipartFile image) throws IOException {
+        return productImageMapper.toDto(createProductImage.execute(image));
     }
 }

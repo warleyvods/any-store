@@ -43,4 +43,8 @@ public class Product {
     public void deactivatePromo() {
         this.promo = false;
     }
+
+    public void addProductImages(final ProductImage productImage) {
+        this.productImages.add(productImage);
+    }
 }

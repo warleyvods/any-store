@@ -14,5 +14,7 @@ public interface ProductImageGatewayMapper {
     @Mapping(target = "id", ignore = true)
     ProductImageEntity toEntity(FileUpload fileUpload, ProductEntity product);
 
+    ProductImageEntity toEntity(FileUpload fileUpload);
+
     ProductImage toDomain(ProductImageEntity productImageEntity);
 }

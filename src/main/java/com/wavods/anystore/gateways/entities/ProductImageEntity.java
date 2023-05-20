@@ -20,6 +20,7 @@ public class ProductImageEntity {
     private Long size;
     private String url;
     private LocalDateTime createdAt;
+    private Boolean principal;
 
     @ManyToOne
     private ProductEntity product;
