@@ -16,45 +16,24 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.toList;
+import static java.util.Optional.ofNullable;
 
 @Slf4j
 @Service
-public record ProductGateway(ProductRepository productRepository, ProductGatewayMapper productGatewayMapper, ProductImageRepository productImageRepository) {
+public record ProductGateway(ProductRepository productRepository,
+                             ProductGatewayMapper productGatewayMapper,
+                             ProductImageRepository productImageRepository) {
 
     private static final String MSG = "product not found!";
 
     public Product save(final Product product) {
-        ProductEntity productEntity = productGatewayMapper.toEntity(product);
-        List<ProductImageEntity> productImages = Optional.ofNullable(productEntity.getProductImages())
-                .map(images -> images.stream()
-                        .filter(Objects::nonNull)
-                        .toList())
-                .orElse(new ArrayList<>());
-
-        List<ProductImageEntity> managedProductImages = new ArrayList<>();
-        for (ProductImageEntity productImage : productImages) {
-            if (productImage.getId() != null) {
-                // Load the existing ProductImageEntity from the database
-                ProductImageEntity managedProductImage = productImageRepository.findById(productImage.getId()).orElse(null);
-                if (managedProductImage != null) {
-                    // Update the bidirectional association
-                    managedProductImage.setProduct(productEntity);
-                    managedProductImages.add(managedProductImage);
-                }
-            } else {
-                productImage.setProduct(productEntity);
-                managedProductImages.add(productImage);
-            }
-        }
+        var productEntity = productGatewayMapper.toEntity(product);
+        var productImages = getProductImageEntities(productEntity);
+        var managedProductImages = getProductImageEntities(productImages, productEntity);
         productEntity.setProductImages(managedProductImages);
 
-        productEntity = productRepository.save(productEntity);
-
-        return productGatewayMapper.toDomain(productEntity);
+        return productGatewayMapper.toDomain(productRepository.save(productEntity));
     }
 
     public Page<Product> getAll(final Pageable pageable) {
@@ -72,5 +51,32 @@ public record ProductGateway(ProductRepository productRepository, ProductGateway
 
     public void deleteById(final Long id) {
         productRepository.deleteById(id);
+    }
+
+    private List<ProductImageEntity> getProductImageEntities(List<ProductImageEntity> productImages, ProductEntity finalProductEntity) {
+        return productImages.stream()
+                .map(productImage -> {
+                    if (productImage.getId() != null) {
+                        return productImageRepository.findById(productImage.getId())
+                                .map(managedProductImage -> {
+                                    managedProductImage.setProduct(finalProductEntity);
+                                    return managedProductImage;
+                                })
+                                .orElse(null);
+                    } else {
+                        productImage.setProduct(finalProductEntity);
+                        return productImage;
+                    }
+                })
+                .filter(Objects::nonNull)
+                .toList();
+    }
+
+    private static List<ProductImageEntity> getProductImageEntities(final ProductEntity productEntity) {
+        return ofNullable(productEntity.getProductImages())
+                .map(images -> images.stream()
+                        .filter(Objects::nonNull)
+                        .toList())
+                .orElse(new ArrayList<>());
     }
 }
