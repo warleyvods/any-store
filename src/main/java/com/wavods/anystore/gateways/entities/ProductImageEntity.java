@@ -23,6 +23,7 @@ public class ProductImageEntity {
     private Boolean principal;
 
     @ManyToOne
+    @JoinColumn(name = "product_id")
     private ProductEntity product;
 
 }

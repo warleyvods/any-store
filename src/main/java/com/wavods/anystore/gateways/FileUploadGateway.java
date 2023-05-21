@@ -49,6 +49,8 @@ public class FileUploadGateway {
 		}
 	}
 
+
+
 	private boolean bucketExists(final String bucketName) {
 		return amazonS3.doesBucketExist(bucketName);
 	}
