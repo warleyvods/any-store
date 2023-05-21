@@ -9,11 +9,11 @@ import org.springframework.stereotype.Component;
 @Component
 public record FindProduct(ProductGateway productGateway) {
 
-    public Page<Product> execute(final Pageable pageable) {
+    public Page<Product> byId(final Pageable pageable) {
         return productGateway.getAll(pageable);
     }
 
-    public Product execute(final Long id) {
+    public Product byId(final Long id) {
         return productGateway.findById(id);
     }
 }
