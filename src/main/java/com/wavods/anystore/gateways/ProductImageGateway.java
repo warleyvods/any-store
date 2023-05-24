@@ -1,7 +1,6 @@
 package com.wavods.anystore.gateways;
 
 import com.wavods.anystore.domains.ProductImage;
-import com.wavods.anystore.gateways.mappers.ProductGatewayMapper;
 import com.wavods.anystore.gateways.mappers.ProductImageGatewayMapper;
 import com.wavods.anystore.repositories.ProductImageRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,9 +29,14 @@ public class ProductImageGateway {
         return productImageGatewayMapper.toDomain(productImageRepository.findById(id).orElse(null));
     }
 
-    public List<ProductImage> findAllById(final List<Long> imageIds) {
-        return productImageRepository.findAllById(imageIds).stream()
+    public List<ProductImage> findAllById(final List<Long> ids) {
+        return productImageRepository.findAllById(ids).stream()
                 .map(productImageGatewayMapper::toDomain)
                 .toList();
+    }
+
+    public void deleteAll(final List<Long> ids) {
+        findAllById(ids).forEach(image -> imageGateway.delete(image.getFileName()));
+        productImageRepository.deleteAllById(ids);
     }
 }

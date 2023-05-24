@@ -2,11 +2,12 @@ package com.wavods.anystore.controllers;
 
 import com.wavods.anystore.controllers.dtos.requests.ProductPostRequestDTO;
 import com.wavods.anystore.controllers.dtos.requests.ProductPutRequestDTO;
-import com.wavods.anystore.controllers.dtos.responses.ProductImageResponseDTO;
 import com.wavods.anystore.controllers.dtos.responses.ProductResponseDTO;
-import com.wavods.anystore.controllers.mappers.ProductImageMapper;
 import com.wavods.anystore.controllers.mappers.ProductMapper;
-import com.wavods.anystore.usecases.*;
+import com.wavods.anystore.usecases.CreateProduct;
+import com.wavods.anystore.usecases.DeleteProduct;
+import com.wavods.anystore.usecases.FindProduct;
+import com.wavods.anystore.usecases.UpdateProduct;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -14,9 +15,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
 
 @Tag(name = "Product Controller")
 @RestController
@@ -27,10 +25,8 @@ public class ProductController {
 
     private final CreateProduct createProduct;
     private final ProductMapper productMapper;
-    private final ProductImageMapper productImageMapper;
     private final FindProduct findProduct;
     private final DeleteProduct deleteProduct;
-    private final CreateProductImage createProductImage;
     private final UpdateProduct updateProduct;
 
     @PostMapping
@@ -60,8 +56,4 @@ public class ProductController {
         deleteProduct.execute(id);
     }
 
-    @PostMapping(value = "/image/upload")
-    public ProductImageResponseDTO imageUpload(final MultipartFile image) throws IOException {
-        return productImageMapper.toDto(createProductImage.execute(image));
-    }
 }

@@ -17,7 +17,11 @@ public class ImageGateway {
     private final AmazonS3Gateway amazonS3Gateway;
 
     public File save(final MultipartFile image) throws IOException {
-        return amazonS3Gateway.fileUpload(image);
+        return amazonS3Gateway.uploadFile(image);
+    }
+
+    public void delete(final String fileName) {
+        amazonS3Gateway.deleteFile(fileName);
     }
 
     public void imageValidation(MultipartFile imageFile) {

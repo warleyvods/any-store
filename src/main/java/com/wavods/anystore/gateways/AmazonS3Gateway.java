@@ -26,7 +26,7 @@ public class AmazonS3Gateway {
 	@Value("${cloud.aws.bucket.name}")
 	private String bucketName;
 
-	public File fileUpload(final MultipartFile file) throws IOException {
+	public File uploadFile(final MultipartFile file) throws IOException {
 		if (!bucketExists(bucketName)) {
 			log.info("Bucket does not exist");
 			return null;
