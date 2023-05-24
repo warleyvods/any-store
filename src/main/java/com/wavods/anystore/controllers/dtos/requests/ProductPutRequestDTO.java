@@ -10,8 +10,7 @@ public record ProductPutRequestDTO(
         BigDecimal price,
         Integer quantity,
         Boolean promo,
-        BigDecimal promoPrice, //todo
         Boolean active,
-        List<Long> images
+        List<ImageRequestDTO> productImages
 ) {
 }

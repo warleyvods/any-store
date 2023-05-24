@@ -10,6 +10,6 @@ public record ProductPostRequestDTO(
         Integer quantity,
         Boolean promo,
         Boolean active,
-        List<ImageRequestDTO> images
+        List<ImageRequestDTO> productImages
 ) {
 }

@@ -7,6 +7,8 @@ ENV DATABASE_CONNECTION_URL=""
 ENV SCOPE="prod"
 ENV PASSWORD=""
 ENV USER=""
+ENV ACCESS_KLEY=""
+ENV SECRET_KEY=""
 
 COPY build/libs/anystore.jar /app/anystore.jar
 CMD mkdir /app/files

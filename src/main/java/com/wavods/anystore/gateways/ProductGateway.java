@@ -67,6 +67,8 @@ public class ProductGateway {
     }
 
     private static void principalImageValidation(final ProductEntity entity) {
+
+
         if (entity.getProductImages().stream().noneMatch(ProductImageEntity::getPrincipal)) {
             entity.getProductImages().stream()
                     .min(comparing(ProductImageEntity::getCreatedAt))

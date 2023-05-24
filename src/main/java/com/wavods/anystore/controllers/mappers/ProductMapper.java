@@ -10,12 +10,10 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = ProductImageGateway.class, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ProductMapper {
 
-    @Mapping(source = "images", target = "productImages")
     Product toDomain(final ProductPostRequestDTO productPostRequestDTO);
 
-    @Mapping(source = "images", target = "productImages")
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    Product updateProductFromDTO(final ProductPutRequestDTO productPutRequestDTO, @MappingTarget final Product user);
+    Product updateProductFromDTO(final ProductPutRequestDTO productPutRequestDTO, @MappingTarget final Product product);
 
     ProductResponseDTO toDto(final Product product);
 }
