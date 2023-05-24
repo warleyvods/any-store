@@ -1,6 +1,6 @@
 package com.wavods.anystore.gateways;
 
-import com.wavods.anystore.domains.FileUpload;
+import com.wavods.anystore.domains.File;
 import com.wavods.anystore.exceptions.FileNotSupportedException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,10 +14,10 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ImageGateway {
 
-    private final FileUploadGateway fileUploadGateway;
+    private final AmazonS3Gateway amazonS3Gateway;
 
-    public FileUpload save(final MultipartFile image) throws IOException {
-        return fileUploadGateway.fileUpload(image);
+    public File save(final MultipartFile image) throws IOException {
+        return amazonS3Gateway.fileUpload(image);
     }
 
     public void imageValidation(MultipartFile imageFile) {

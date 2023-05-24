@@ -13,7 +13,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -61,7 +60,6 @@ public class ProductController {
         deleteProduct.execute(id);
     }
 
-    //TODO criar um controller para imagens
     @PostMapping(value = "/image/upload")
     public ProductImageResponseDTO imageUpload(final MultipartFile image) throws IOException {
         return productImageMapper.toDto(createProductImage.execute(image));

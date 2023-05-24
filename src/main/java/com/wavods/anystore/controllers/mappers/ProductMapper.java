@@ -18,5 +18,4 @@ public interface ProductMapper {
     Product updateProductFromDTO(final ProductPutRequestDTO productPutRequestDTO, @MappingTarget final Product user);
 
     ProductResponseDTO toDto(final Product product);
-
 }

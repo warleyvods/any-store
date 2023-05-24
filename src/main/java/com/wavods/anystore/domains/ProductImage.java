@@ -24,4 +24,7 @@ public class ProductImage {
         this.url = urlImage;
         this.createdAt = createdAt;
     }
+
+    public ProductImage() {
+    }
 }

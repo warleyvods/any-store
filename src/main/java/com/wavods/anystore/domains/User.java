@@ -6,6 +6,8 @@ import lombok.Setter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import static java.time.LocalDateTime.*;
+
 @Getter
 @Setter
 public class User {
@@ -21,7 +23,7 @@ public class User {
     private LocalDateTime lastAccess;
 
     public void lastAccess() {
-        this.lastAccess = LocalDateTime.now();
+        this.lastAccess = now();
     }
 
     public Boolean isAdmin() {

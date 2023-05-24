@@ -4,11 +4,9 @@ package com.wavods.anystore.gateways;
 import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.*;
-import com.wavods.anystore.domains.FileUpload;
+import com.wavods.anystore.domains.File;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,14 +19,14 @@ import static java.util.UUID.randomUUID;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class FileUploadGateway {
+public class AmazonS3Gateway {
 
 	private final AmazonS3 amazonS3;
 
 	@Value("${cloud.aws.bucket.name}")
 	private String bucketName;
 
-	public FileUpload fileUpload(final MultipartFile file) throws IOException {
+	public File fileUpload(final MultipartFile file) throws IOException {
 		if (!bucketExists(bucketName)) {
 			log.info("Bucket does not exist");
 			return null;
@@ -42,17 +40,23 @@ public class FileUploadGateway {
 			String objectUrl = amazonS3.getUrl(bucketName, fileName).toString();
 			log.info("Image uploaded successfully");
 
-			return new FileUpload(fileName, file.getContentType(), file.getSize(), objectUrl, now());
+			return new File(fileName, file.getContentType(), file.getSize(), objectUrl, now(), false);
 		} catch (SdkClientException e) {
 			log.error("File upload failed", e);
 			return null;
 		}
 	}
 
-
+	public void deleteFile(final String fileName) {
+		if (!amazonS3.doesBucketExistV2(bucketName)) {
+			log.error("No Bucket Found");
+			return;
+		}
+		amazonS3.deleteObject(bucketName, fileName);
+	}
 
 	private boolean bucketExists(final String bucketName) {
-		return amazonS3.doesBucketExist(bucketName);
+		return amazonS3.doesBucketExistV2(bucketName);
 	}
 
 	private String generateFileName(final MultipartFile file) {
@@ -70,13 +74,5 @@ public class FileUploadGateway {
 		metadata.setContentType(file.getContentType());
 		metadata.setContentLength(file.getSize());
 		return metadata;
-	}
-
-	public void deleteFile(final String fileName) {
-		if (!amazonS3.doesBucketExist(bucketName)) {
-			log.error("No Bucket Found");
-			return;
-		}
-		amazonS3.deleteObject(bucketName, fileName);
 	}
 }

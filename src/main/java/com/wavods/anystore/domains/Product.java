@@ -20,31 +20,4 @@ public class Product {
     private Boolean active;
     private List<ProductImage> productImages;
 
-    public Boolean isPromo() {
-        return this.promo;
-    }
-
-    public Boolean isActive() {
-        return this.active;
-    }
-
-    public void activate() {
-        this.active = true;
-    }
-
-    public void deactivate() {
-        this.active = false;
-    }
-
-    public void activatePromo() {
-        this.promo = true;
-    }
-
-    public void deactivatePromo() {
-        this.promo = false;
-    }
-
-    public void addProductImages(final ProductImage productImage) {
-        this.productImages.add(productImage);
-    }
 }

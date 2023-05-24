@@ -6,34 +6,31 @@ import com.wavods.anystore.exceptions.ProductNotFoundException;
 import com.wavods.anystore.gateways.entities.ProductEntity;
 import com.wavods.anystore.gateways.entities.ProductImageEntity;
 import com.wavods.anystore.gateways.mappers.ProductGatewayMapper;
-import com.wavods.anystore.repositories.ProductImageRepository;
 import com.wavods.anystore.repositories.ProductRepository;
+import jakarta.persistence.EntityManager;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
-import static java.util.Optional.ofNullable;
+import static java.util.Comparator.comparing;
 
 @Slf4j
 @Service
-public record ProductGateway(ProductRepository productRepository,
-                             ProductGatewayMapper productGatewayMapper,
-                             ProductImageRepository productImageRepository) {
+@RequiredArgsConstructor
+public class ProductGateway {
+
+    private final ProductRepository productRepository;
+    private final ProductGatewayMapper productGatewayMapper;
+    private final EntityManager entityManager;
 
     private static final String MSG = "product not found!";
 
+    @Transactional
     public Product save(final Product product) {
-        var productEntity = productGatewayMapper.toEntity(product);
-        var productImages = getProductImageEntities(productEntity);
-        var managedProductImages = getProductImageEntities(productImages, productEntity);
-        productEntity.setProductImages(managedProductImages);
-
-        return productGatewayMapper.toDomain(productRepository.save(productEntity));
+        return productGatewayMapper.toDomain(entityManager.merge(attachImage(product)));
     }
 
     public Page<Product> getAll(final Pageable pageable) {
@@ -53,30 +50,34 @@ public record ProductGateway(ProductRepository productRepository,
         productRepository.deleteById(id);
     }
 
-    private List<ProductImageEntity> getProductImageEntities(List<ProductImageEntity> productImages, ProductEntity finalProductEntity) {
-        return productImages.stream()
-                .map(productImage -> {
-                    if (productImage.getId() != null) {
-                        return productImageRepository.findById(productImage.getId())
-                                .map(managedProductImage -> {
-                                    managedProductImage.setProduct(finalProductEntity);
-                                    return managedProductImage;
-                                })
-                                .orElse(null);
-                    } else {
-                        productImage.setProduct(finalProductEntity);
-                        return productImage;
-                    }
-                })
-                .filter(Objects::nonNull)
-                .toList();
+    private ProductEntity attachImage(Product product) {
+        final ProductEntity entity = productGatewayMapper.toEntity(product);
+
+        if (entity.getProductImages() != null) {
+            principalImageValidation(entity);
+            for (ProductImageEntity image : entity.getProductImages()) {
+                image.setProduct(entity);
+
+                if (entityManager.contains(image)) {
+                    entityManager.merge(image);
+                }
+            }
+        }
+        return entity;
     }
 
-    private static List<ProductImageEntity> getProductImageEntities(final ProductEntity productEntity) {
-        return ofNullable(productEntity.getProductImages())
-                .map(images -> images.stream()
-                        .filter(Objects::nonNull)
-                        .toList())
-                .orElse(new ArrayList<>());
+    private static void principalImageValidation(final ProductEntity entity) {
+        if (entity.getProductImages().stream().noneMatch(ProductImageEntity::getPrincipal)) {
+            entity.getProductImages().stream()
+                    .min(comparing(ProductImageEntity::getCreatedAt))
+                    .ifPresent(image -> image.setPrincipal(true));
+        }
+
+        if (entity.getProductImages().stream().filter(ProductImageEntity::getPrincipal).count() > 1) {
+            entity.getProductImages().stream()
+                    .filter(ProductImageEntity::getPrincipal)
+                    .max(comparing(ProductImageEntity::getCreatedAt))
+                    .ifPresent(image -> image.setPrincipal(false));
+        }
     }
 }

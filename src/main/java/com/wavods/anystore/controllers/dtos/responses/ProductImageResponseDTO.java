@@ -6,6 +6,7 @@ public record ProductImageResponseDTO(
         String contentType,
         Long size,
         String url,
-        String createdAt
+        String createdAt,
+        Boolean principal
 ) {
 }

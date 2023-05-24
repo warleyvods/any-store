@@ -12,7 +12,7 @@ import static jakarta.persistence.GenerationType.*;
 
 @Getter
 @Setter
-@Entity(name = "`product`")
+@Entity(name = "product")
 public class ProductEntity {
 
     @Id
