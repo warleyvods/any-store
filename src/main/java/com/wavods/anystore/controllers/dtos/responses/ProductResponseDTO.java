@@ -1,6 +1,7 @@
 package com.wavods.anystore.controllers.dtos.responses;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public record ProductResponseDTO(
@@ -12,6 +13,8 @@ public record ProductResponseDTO(
         Boolean promo,
         BigDecimal promoPrice,
         Boolean active,
+        Boolean archived,
+        LocalDateTime createdAt,
         List<ProductImageResponseDTO> productImages
 ) {
 }

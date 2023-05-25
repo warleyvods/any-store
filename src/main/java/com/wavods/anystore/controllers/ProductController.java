@@ -46,6 +46,14 @@ public class ProductController {
         return findProduct.byId(pageable).map(productMapper::toDto);
     }
 
+
+    @GetMapping
+    public Page<ProductResponseDTO> getAllProducts(
+            @RequestParam(required = false) final Boolean status,
+            final Pageable pageable) {
+        return findProduct.byIdWithFilters(pageable, status).map(productMapper::toDto);
+    }
+
     @GetMapping("/public/{id}")
     public ProductResponseDTO findById(@PathVariable final Long id) {
         return productMapper.toDto(findProduct.byId(id));

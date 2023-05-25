@@ -4,11 +4,14 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static jakarta.persistence.GenerationType.*;
+import static java.time.LocalDateTime.now;
 
 @Getter
 @Setter
@@ -37,12 +40,19 @@ public class ProductEntity {
     private Integer quantity;
 
     private Boolean promo;
-
     private BigDecimal promoPrice;
-
     private Boolean active;
+    private Boolean archived;
+
+    @CreatedDate
+    @Column(updatable = false)
+    private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ProductImageEntity> productImages;
 
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = now();
+    }
 }

@@ -37,6 +37,10 @@ public class ProductGateway {
         return productRepository.findAll(pageable).map(productGatewayMapper::toDomain);
     }
 
+    public Page<Product> getAllWithFilters(final Pageable pageable, final Boolean status) {
+        return productRepository.findByProductWithFilters(status, pageable).map(productGatewayMapper::toDomain);
+    }
+
     public Product findById(final Long id) {
         return productGatewayMapper.toDomain(productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(MSG)));
     }
@@ -67,8 +71,6 @@ public class ProductGateway {
     }
 
     private static void principalImageValidation(final ProductEntity entity) {
-
-
         if (entity.getProductImages().stream().noneMatch(ProductImageEntity::getPrincipal)) {
             entity.getProductImages().stream()
                     .min(comparing(ProductImageEntity::getCreatedAt))
