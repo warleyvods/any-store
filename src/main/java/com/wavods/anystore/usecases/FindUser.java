@@ -26,4 +26,8 @@ public record FindUser(UserGateway userGateway, UserGatewayMapper userGatewayMap
     public Page<User> all(Pageable pageable) {
         return userGateway.getAll(pageable);
     }
+
+    public Page<User> findByWithFilters(final Boolean status, final Pageable pageable) {
+        return userGateway.getAllWithFilters(status, pageable);
+    }
 }

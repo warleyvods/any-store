@@ -49,6 +49,9 @@ public class UserEntity {
     @Column(nullable = false)
     private boolean active = true;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private CartEntity cart;
+
     @Column(updatable = false)
     private LocalDate createdAt;
 

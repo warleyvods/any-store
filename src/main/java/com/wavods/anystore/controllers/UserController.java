@@ -94,7 +94,7 @@ public class UserController {
     @ResponseStatus(OK)
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public Page<UserResponseDTO> findAll(Pageable pageable) {
-        return findUser.all(pageable).map(mapper::fromDomain);
+    public Page<UserResponseDTO> findAll(@RequestParam(required = false) final Boolean status, final Pageable pageable) {
+        return findUser.findByWithFilters(status, pageable).map(mapper::fromDomain);
     }
 }

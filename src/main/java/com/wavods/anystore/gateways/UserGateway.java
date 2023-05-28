@@ -26,6 +26,10 @@ public record UserGateway(UserRepository userRepository, UserGatewayMapper userG
         return userRepository.findAll(pageable).map(userGatewayMapper::toDomain);
     }
 
+    public Page<User> getAllWithFilters(final Boolean status, final Pageable pageable) {
+        return userRepository.findAllByActive(status, pageable).map(userGatewayMapper::toDomain);
+    }
+
     public User findById(final Long id) {
         return userGatewayMapper.toDomain(userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(MSG)));
     }
