@@ -50,8 +50,9 @@ public class ProductController {
     @GetMapping
     public Page<ProductResponseDTO> getAllProducts(
             @RequestParam(required = false) final Boolean status,
+            @RequestParam(required = false) final String keyword,
             final Pageable pageable) {
-        return findProduct.byIdWithFilters(pageable, status).map(productMapper::toDto);
+        return findProduct.byIdWithFilters(status, keyword, pageable).map(productMapper::toDto);
     }
 
     @GetMapping("/public/{id}")

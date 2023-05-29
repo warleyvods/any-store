@@ -15,8 +15,8 @@ public record FindProduct(ProductGateway productGateway) {
         return productGateway.getAll(pageable);
     }
 
-    public Page<Product> byIdWithFilters(final Pageable pageable, final Boolean status) {
-        return productGateway.getAllWithFilters(pageable, status);
+    public Page<Product> byIdWithFilters(final Boolean status, final String keyword, final Pageable pageable) {
+        return productGateway.getAllWithFilters(status, keyword, pageable);
     }
 
     public Product byId(final Long id) {

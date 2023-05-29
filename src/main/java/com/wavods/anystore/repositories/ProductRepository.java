@@ -12,8 +12,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 
-    @Query("SELECT p FROM product p WHERE 1=1 " +
-            " AND (:status IS NULL OR p.active = :status) ")
-    Page<ProductEntity> findByProductWithFilters(@Param("status") final  Boolean status, final Pageable pageable);
+    @Query(value = """ 
+            SELECT p FROM product p
+            WHERE (:status IS NULL OR p.active = :status)
+            AND (:keyword IS NULL OR p.name ilike concat('%', :keyword, '%'))""")
+    Page<ProductEntity> findByProductWithFilters(@Param("status") final  Boolean status,
+                                                 @Param("keyword") final String keyword,
+                                                 final Pageable pageable);
 
 }

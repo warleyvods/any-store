@@ -37,8 +37,8 @@ public class ProductGateway {
         return productRepository.findAll(pageable).map(productGatewayMapper::toDomain);
     }
 
-    public Page<Product> getAllWithFilters(final Pageable pageable, final Boolean status) {
-        return productRepository.findByProductWithFilters(status, pageable).map(productGatewayMapper::toDomain);
+    public Page<Product> getAllWithFilters(final Boolean status, final String keyword, final Pageable pageable) {
+        return productRepository.findByProductWithFilters(status, keyword, pageable).map(productGatewayMapper::toDomain);
     }
 
     public Product findById(final Long id) {
