@@ -16,6 +16,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Tag(name = "Product Controller")
 @RestController
 @RequiredArgsConstructor
@@ -65,4 +67,8 @@ public class ProductController {
         deleteProduct.execute(id);
     }
 
+    @DeleteMapping
+    public void batchDelete(@RequestParam final List<Long> ids) {
+        deleteProduct.execute(ids);
+    }
 }

@@ -15,6 +15,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static java.util.Comparator.comparing;
 
 @Slf4j
@@ -45,9 +47,12 @@ public class ProductGateway {
         return productGatewayMapper.toDomain(productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(MSG)));
     }
 
-
     public Product update(final Product user) {
         return productGatewayMapper.toDomain(productRepository.save(productGatewayMapper.toEntity(user)));
+    }
+
+    public void deleteAll(final List<Long> ids) {
+        productRepository.deleteAllById(ids);
     }
 
     public void deleteById(final Long id) {
